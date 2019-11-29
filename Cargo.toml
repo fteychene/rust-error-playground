@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-    "vanilla"
+    "vanilla",
+    "vanillacustom"
 ]
