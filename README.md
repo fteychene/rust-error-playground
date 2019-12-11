@@ -23,3 +23,9 @@ chapters from the file.
 [Code](vanilla)
 
 Run : `cargo run --package vanilla --bin vanilla`
+
+### Vanilla with custom errors
+
+[Code](vanillacustom)
+
+Run : `cargo run --package vanillacustom --bin vanillacustom`
