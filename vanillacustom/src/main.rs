@@ -1,8 +1,9 @@
 use std::error::Error;
 use std::fs::File;
 use std::io::Read;
-use std::ops::Add;
+use std::ops::{Add};
 use std::fmt::{Display, Formatter, Debug};
+use std::borrow::Borrow;
 
 struct Play {
     name: String,
@@ -42,10 +43,10 @@ impl SourceError {
 
 impl Display for SourceError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Error for source play")?;
+        write!(f, "Error for source play : {}", self.message)?;
         match self.cause {
             Some(ref cause) => {
-                write!(f, "\n")?;
+                write!(f, "\nCause : ")?;
                 Display::fmt(cause, f)
             },
             None => Ok(())
@@ -60,7 +61,9 @@ impl Debug for SourceError {
 }
 
 impl Error for SourceError {
-
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        self.cause.as_ref().map(|v| v.borrow())
+    }
 }
 
 
@@ -96,7 +99,7 @@ fn remove_header(chapters: Vec<String>) -> Result<Vec<String>, Box<dyn Error>> {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let play = load_play("Romeo and Juliette no text".to_string())?;
+    let play = load_play("Romeo and Juliette no text lol".to_string())?;
     println!("Loaded {} with {} chapters", play.name, play.chapters.len());
     Ok(())
 }
